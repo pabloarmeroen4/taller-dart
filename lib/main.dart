@@ -1,99 +1,76 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyCustomCVApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyCustomCVApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Currículum Vitae',
+      title: 'CV Personalizado',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.deepPurple, // Cambié los colores
+        brightness: Brightness.dark, // Aplicar tema oscuro
       ),
-      home: CVScreen(),
+      home: CustomCVScreen(),
     );
   }
 }
 
-class CVScreen extends StatelessWidget {
-  final String nombre = 'Juan Daniel Madroñero Ferrer';
-  final String ocupacion = 'Estudiante';
-  final String edad = '20 años';
-  final String email = 'juandaniel@example.com';
+class CustomCVScreen extends StatefulWidget {
+  @override
+  _CustomCVScreenState createState() => _CustomCVScreenState();
+}
+
+class _CustomCVScreenState extends State<CustomCVScreen> {
+  int _selectedIndex = 0;
+
+  // Lista de pantallas para la barra de navegación inferior
+  final List<Widget> _screens = [
+    PerfilOcupacionalScreen(),
+    DatosPersonalesScreen(),
+    ReferenciasLaboralesScreen(),
+    EstudiosScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Currículum Vitae'),
+        title: Text('Mi CV Personalizado'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Perfil Ocupacional'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PerfilOcupacionalScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text('Datos Personales'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DatosPersonalesScreen(
-                          nombre, ocupacion, edad, email)),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.work),
-              title: Text('Referencias Laborales'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReferenciasLaboralesScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.school),
-              title: Text('Estudios'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EstudiosScreen()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-      body: Center(
-        child: Text('Bienvenido a mi Currículum Vitae'),
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'Datos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.work),
+            label: 'Referencias',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'Estudios',
+          ),
+        ],
+        backgroundColor: Colors.deepPurpleAccent, // Color personalizado
+        selectedItemColor: Colors.amber,
+        unselectedItemColor: Colors.white70,
       ),
     );
   }
@@ -102,15 +79,13 @@ class CVScreen extends StatelessWidget {
 class PerfilOcupacionalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Perfil Ocupacional'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Center(
         child: Text(
           'Soy Juan Daniel Madroñero Ferrer, estudiante apasionado por la tecnología y el desarrollo de software.',
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 18, color: Colors.amberAccent),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -118,30 +93,28 @@ class PerfilOcupacionalScreen extends StatelessWidget {
 }
 
 class DatosPersonalesScreen extends StatelessWidget {
-  final String nombre;
-  final String ocupacion;
-  final String edad;
-  final String email;
-
-  DatosPersonalesScreen(this.nombre, this.ocupacion, this.edad, this.email);
+  final String nombre = 'Juan Daniel Madroñero Ferrer';
+  final String ocupacion = 'Estudiante';
+  final String edad = '20 años';
+  final String email = 'juandaniel@example.com';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Datos Personales'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Nombre: $nombre', style: TextStyle(fontSize: 18)),
-            Text('Ocupación: $ocupacion', style: TextStyle(fontSize: 18)),
-            Text('Edad: $edad', style: TextStyle(fontSize: 18)),
-            Text('Email: $email', style: TextStyle(fontSize: 18)),
-          ],
-        ),
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Nombre: $nombre',
+              style: TextStyle(fontSize: 18, color: Colors.white)),
+          Text('Ocupación: $ocupacion',
+              style: TextStyle(fontSize: 18, color: Colors.white)),
+          Text('Edad: $edad',
+              style: TextStyle(fontSize: 18, color: Colors.white)),
+          Text('Email: $email',
+              style: TextStyle(fontSize: 18, color: Colors.white)),
+          SizedBox(height: 20),
+        ],
       ),
     );
   }
@@ -150,16 +123,11 @@ class DatosPersonalesScreen extends StatelessWidget {
 class ReferenciasLaboralesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Referencias Laborales'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Text(
-          '1. Empresa XYZ - Cargo: Desarrollador Junior\n2. Empresa ABC - Cargo: Practicante en Tecnología',
-          style: TextStyle(fontSize: 18),
-        ),
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Text(
+        '1. Empresa XYZ - Cargo: Desarrollador Junior\n2. Empresa ABC - Cargo: Practicante en Tecnología',
+        style: TextStyle(fontSize: 18, color: Colors.white),
       ),
     );
   }
@@ -168,16 +136,11 @@ class ReferenciasLaboralesScreen extends StatelessWidget {
 class EstudiosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Estudios'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Text(
-          '1. Ingeniería en Sistemas - Universidad XYZ\n2. Certificaciones en Flutter y Desarrollo Web',
-          style: TextStyle(fontSize: 18),
-        ),
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Text(
+        '1. Ingeniería en Sistemas - Universidad XYZ\n2. Certificaciones en Flutter y Desarrollo Web',
+        style: TextStyle(fontSize: 18, color: Colors.white),
       ),
     );
   }
