@@ -10,8 +10,8 @@ class MyCustomCVApp extends StatelessWidget {
     return MaterialApp(
       title: 'CV Personalizado',
       theme: ThemeData(
-        primaryColor: Colors.deepPurple, // Cambié los colores
-        brightness: Brightness.dark, // Aplicar tema oscuro
+        primaryColor: Colors.deepPurple,
+        brightness: Brightness.dark,
       ),
       home: CustomCVScreen(),
     );
@@ -26,7 +26,6 @@ class CustomCVScreen extends StatefulWidget {
 class _CustomCVScreenState extends State<CustomCVScreen> {
   int _selectedIndex = 0;
 
-  // Lista de pantallas para la barra de navegación inferior
   final List<Widget> _screens = [
     PerfilOcupacionalScreen(),
     DatosPersonalesScreen(),
@@ -68,7 +67,7 @@ class _CustomCVScreenState extends State<CustomCVScreen> {
             label: 'Estudios',
           ),
         ],
-        backgroundColor: Colors.deepPurpleAccent, // Color personalizado
+        backgroundColor: Colors.deepPurpleAccent,
         selectedItemColor: Colors.amber,
         unselectedItemColor: Colors.white70,
       ),
